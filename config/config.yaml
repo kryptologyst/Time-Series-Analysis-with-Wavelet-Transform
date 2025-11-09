@@ -1,0 +1,62 @@
+# Configuration file for time series analysis project
+data:
+  synthetic:
+    n_samples: 1000
+    noise_level: 0.1
+    trend_strength: 0.5
+    seasonality_strength: 0.3
+    anomaly_probability: 0.05
+  
+  real_data:
+    sources:
+      - name: "energy"
+        url: "https://raw.githubusercontent.com/jbrownlee/Datasets/master/daily-total-female-births.csv"
+      - name: "stock"
+        url: "https://raw.githubusercontent.com/jbrownlee/Datasets/master/daily-min-temperatures.csv"
+
+wavelet:
+  wavelet_type: "morl"
+  scales_min: 1
+  scales_max: 100
+  sampling_period: 0.01
+
+models:
+  arima:
+    auto_arima: true
+    seasonal: true
+    max_p: 5
+    max_q: 5
+    max_P: 2
+    max_Q: 2
+  
+  prophet:
+    yearly_seasonality: true
+    weekly_seasonality: true
+    daily_seasonality: false
+  
+  lstm:
+    sequence_length: 60
+    hidden_units: 50
+    epochs: 100
+    batch_size: 32
+    dropout: 0.2
+
+anomaly_detection:
+  isolation_forest:
+    contamination: 0.1
+    random_state: 42
+  
+  autoencoder:
+    encoding_dim: 32
+    epochs: 100
+    batch_size: 32
+
+visualization:
+  figure_size: [12, 8]
+  style: "seaborn-v0_8"
+  color_palette: "husl"
+
+logging:
+  level: "INFO"
+  format: "{time:YYYY-MM-DD HH:mm:ss} | {level} | {name}:{function}:{line} - {message}"
+  file: "logs/analysis.log"
